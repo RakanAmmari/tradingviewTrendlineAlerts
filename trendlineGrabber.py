@@ -14,23 +14,19 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 from datetime import datetime,timezone
 
-
+# Get coin name, exchange, and price so that the coin is made into an object. Price is used to decide whether trendline needs to be crossed above or below.
 def getCoinDetails(driver):
     time.sleep(1)
     nameOfCoin = driver.find_element(By.CSS_SELECTOR, '.title-2ahQmZbQ').get_attribute("innerText")
     exchangeOfCoin = driver.find_element(By.CSS_SELECTOR, 'div.title-1WIwNaDF:nth-child(5)').get_attribute("innerText")
     driver.implicitly_wait(20)
-    # ignored_exceptions = (NoSuchElementException, StaleElementReferenceException,)
-    # WebDriverWait(driver, 120, ignored_exceptions=ignored_exceptions).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, '.price-3PT2D-PK')))
     priceOfCoin = float(driver.find_element(By.CSS_SELECTOR, '.price-3PT2D-PK').get_attribute("innerText"))
     return nameOfCoin, exchangeOfCoin, priceOfCoin
 
-
+# Get coordinates of objects in object tree.
 def getCoordinatesFromObjectTree(objectTreeObjects, driver):
     trendlineCoordinates = []
-
     for object in objectTreeObjects:
-        # print(object.get_attribute("innerText"))
         if object.get_attribute("class") != "title-3Onbn19L disabled-3Onbn19L":
             if (object.get_attribute("innerText") == "Trend Line" or object.get_attribute("innerText") == "Ray"):
                 webdriver.ActionChains(driver).double_click(object).perform()
@@ -44,8 +40,7 @@ def getCoordinatesFromObjectTree(objectTreeObjects, driver):
 
 
 def main() -> None:
-    # print(time.mktime(time.gmtime()))
-    coinsList = []
+    coinsList = [] # Initializing list of coin objects.
 
     print("Retrieving trendlines. Please wait...")
 
@@ -123,6 +118,8 @@ def main() -> None:
 
     # At this point, "coinsList" is a list of objects (of type 'Coin' class). Each object has name, exchange, and a list
     # of trendlines. "coinsList" can now be iterated through.
+
+    # Record time now to save it in pickle file, so that time elapsed between pickle file creation and access is calculated. 
     time_now = int(time.time())
 
     pickleFile = open('listOfCoins.pkl', "wb")

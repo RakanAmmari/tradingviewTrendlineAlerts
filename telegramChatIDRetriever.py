@@ -4,7 +4,8 @@ from dotenv import load_dotenv
 import json
 load_dotenv()
 
-###########################################################
+# Retrieves Telegram chat ID. Set Telegram bot token in .env first.
+
 telegramTokenList = os.environ.get("telegramBotTokens").split(",")
 
 for telegramToken in telegramTokenList:

@@ -22,9 +22,9 @@ def getPrices(strippedCoinNameString):
     session.headers.update(headers)
 
     try:
-    	response = session.get(url, params=parameters)
-    	prices = json.loads(response.text)
+        response = session.get(url, params=parameters)
+        prices = json.loads(response.text)
     except (ConnectionError, Timeout, TooManyRedirects) as e:
-    	print(e)
+        print(e)
 
     return prices
