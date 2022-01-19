@@ -1,6 +1,7 @@
 listOfCoins.pkl
 Todo.txt
 .vs/
+.idea/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
